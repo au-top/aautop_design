@@ -1,5 +1,5 @@
 import 'dart:convert';
-import "chatlogic_chatevents_timecon.dart";
+import "chatlogic_chatevents_timecons.dart";
 
 class ChatLogicChatEventsIsTimer {
   ChatLogicChatEventsIsTimer({
@@ -8,21 +8,19 @@ class ChatLogicChatEventsIsTimer {
     required this.coolDownTime,
   });
 
-  late List<ChatLogicChatEventsTimeCon>? timeCons;
+  late List<ChatLogicChatEventsTimeCons>? timeCons;
   late num? frequency;
   late num? coolDownTime;
 
   ChatLogicChatEventsIsTimer.fromJson(Map<String, dynamic> jsondata) {
-    this.timeCons = List<ChatLogicChatEventsTimeCon>.from(
-        jsondata["timeCons"]
-            .map((e) => ChatLogicChatEventsTimeCon.fromJson(e)));
+    this.timeCons = List<ChatLogicChatEventsTimeCons>.from(jsondata["timeCons"].map((e) => ChatLogicChatEventsTimeCons.fromJson(e)));
     ;
     this.frequency = jsondata["frequency"];
     this.coolDownTime = jsondata["coolDownTime"];
     ;
   }
 
-  Map<dynamic,dynamic> toJson() {
+  Map<dynamic, dynamic> toJson() {
     final jsonMapElem = new Map();
     jsonMapElem["timeCons"] = this.timeCons;
     jsonMapElem["frequency"] = this.frequency;

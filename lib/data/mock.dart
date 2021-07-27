@@ -1,14 +1,7 @@
-
 import 'dart:math';
-
-import "package:aautop_designer/model/chatlogic.dart";
-import "package:aautop_designer/model/chatlogic_chatevent.dart";
-import "package:aautop_designer/model/chatlogic_chatevents_isres.dart";
-import "package:aautop_designer/model/chatlogic_chatevents_timecon.dart";
-import "package:aautop_designer/model/chatlogic_chatevents_istimer.dart";
-import "package:aautop_designer/model/chatlogic_msg.dart";
 import "package:aautop_designer/model/events_type.dart";
 import "package:aautop_designer/model/msg_type.dart";
+import "package:aautop_designer/model/chatlogic_model.dart";
 
 ChatLogic mockData() {
   final ChatLogic chatLogic = ChatLogic(chatEvents: [], msgs: []);

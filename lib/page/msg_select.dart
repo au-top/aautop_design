@@ -1,11 +1,10 @@
-import 'package:aautop_designer/model/chatlogic.dart';
-import 'package:aautop_designer/model/chatlogic_msg.dart';
+
+import "package:aautop_designer/model/chatlogic_model.dart";
 import 'package:aautop_designer/model/msg_type.dart';
 import 'package:aautop_designer/style/style.dart';
 import 'package:aautop_designer/tool/widget/free_chip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 class MsgSelect extends StatefulWidget {
   ChatLogic dataLogicData;
   late final List<String> selectMsgList;

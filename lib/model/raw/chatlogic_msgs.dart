@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class ChatLogicMsg {
-  ChatLogicMsg({
+class ChatLogicMsgs {
+  ChatLogicMsgs({
     required this.msgId,
     required this.type,
     required this.content,
@@ -11,18 +11,19 @@ class ChatLogicMsg {
   late String? type;
   late String? content;
 
-  ChatLogicMsg.fromJson(Map<String, dynamic> jsondata) {
+  ChatLogicMsgs.fromJson(Map<String, dynamic> jsondata) {
     this.msgId = jsondata["msgId"];
     this.type = jsondata["type"];
     this.content = jsondata["content"];
-
+    ;
   }
 
-  Map<dynamic,dynamic> toJson() {
+  Map<dynamic, dynamic> toJson() {
     final jsonMapElem = new Map();
     jsonMapElem["msgId"] = this.msgId;
     jsonMapElem["type"] = this.type;
     jsonMapElem["content"] = this.content;
     return jsonMapElem;
+    ;
   }
 }

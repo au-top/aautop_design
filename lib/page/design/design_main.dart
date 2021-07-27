@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:aautop_designer/model/chatlogic_model.dart';
 import 'package:aautop_designer/page/design/float_tool_bar.dart';
 import 'package:aautop_designer/page/design/chatevent_card.dart';
 import 'package:aautop_designer/page/design/chatevent_ui_packer.dart';
@@ -13,7 +14,7 @@ import 'package:aautop_designer/tool/widget/dependent.dart';
 import 'package:aautop_designer/tool/widget/scrollbar_view.dart';
 import 'package:flutter/material.dart';
 
-import "package:aautop_designer/model_function.dart";
+
 import 'package:flutter/painting.dart';
 import 'package:aautop_designer/page/design/design.dart';
 import 'package:flutter/cupertino.dart';

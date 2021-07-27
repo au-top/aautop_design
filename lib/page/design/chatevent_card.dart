@@ -2,10 +2,9 @@ import 'package:aautop_designer/tool/widget/free_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:aautop_designer/page/design/chatevent_ui_packer.dart';
 import 'package:aautop_designer/style/style.dart';
-import "package:aautop_designer/model/chatlogic.dart";
-import "package:aautop_designer/model/chatlogic_chatevents_timecon.dart";
+import "package:aautop_designer/model/chatlogic_model.dart";
 import "package:aautop_designer/model/events_type.dart";
-import "package:aautop_designer/model_function.dart";
+
 
 enum ChatEventCardMode {
   less,

@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:aautop_designer/model/chatlogic_msg.dart';
+
 import 'package:aautop_designer/page/design/design.dart';
 import 'package:aautop_designer/page/msg_select.dart';
 import 'package:aautop_designer/page/msg_manage.dart';
@@ -9,10 +9,10 @@ import 'package:aautop_designer/tool/textfield_filter.dart';
 import 'package:aautop_designer/tool/time_tool.dart';
 import 'package:aautop_designer/tool/widget/free_chip.dart';
 import 'package:flutter/material.dart';
-import "package:aautop_designer/model/chatlogic_chatevent.dart";
-import "package:aautop_designer/model/chatlogic_chatevents_timecon.dart";
+import "package:aautop_designer/model/chatlogic_model.dart";
+
 import "package:aautop_designer/model/events_type.dart";
-import "package:aautop_designer/model_function.dart";
+
 import 'package:flutter/painting.dart';
 
 extension DesignChatEventEditor on DesignState{

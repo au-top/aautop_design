@@ -1,12 +1,30 @@
+/// Direct export
+
+import 'package:aautop_designer/model/raw/chatlogic_chatevents_timecons.dart';
+import 'package:aautop_designer/model/raw/chatlogic_chatevents.dart';
+import 'package:aautop_designer/model/raw/chatlogic_msgs.dart';
 import 'package:aautop_designer/data/functions.dart';
-import "package:aautop_designer/model/chatlogic.dart";
-import "package:aautop_designer/model/chatlogic_chatevent.dart";
-import 'package:aautop_designer/model/chatlogic_chatevents_isres.dart';
-import 'package:aautop_designer/model/chatlogic_chatevents_istimer.dart';
-import "package:aautop_designer/model/chatlogic_msg.dart";
 import 'package:aautop_designer/model/events_type.dart';
+import 'package:aautop_designer/model/raw/chatlogic.dart';
+import 'package:aautop_designer/model/raw/chatlogic_chatevents_isres.dart';
+import 'package:aautop_designer/model/raw/chatlogic_chatevents_istimer.dart';
 
 
+/// export
+
+export 'package:aautop_designer/model/raw/chatlogic.dart';
+export 'package:aautop_designer/model/raw/chatlogic_chatevents_isres.dart';
+export 'package:aautop_designer/model/raw/chatlogic_chatevents_istimer.dart';
+typedef ChatLogicChatEvent = ChatLogicChatEvents;
+typedef ChatLogicChatEventsTimeCon = ChatLogicChatEventsTimeCons;
+typedef ChatLogicMsg = ChatLogicMsgs;
+
+
+
+
+
+
+/// extension
 
 
 extension ChatLogicChatEventTypeTest on ChatLogicChatEvent {
@@ -48,7 +66,7 @@ extension ChatLogicFunction on ChatLogic {
 
   ChatLogicChatEvent? fromIdGetChatEvent(String id) {
     final findIndex =
-        chatEvents!.indexWhere((element) => element.eventId == id);
+    chatEvents!.indexWhere((element) => element.eventId == id);
     if (findIndex != -1) {
       return chatEvents![findIndex];
     } else {

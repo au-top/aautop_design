@@ -1,8 +1,8 @@
 import 'package:aautop_designer/model/events_type.dart';
-import 'package:aautop_designer/model_function.dart';
+
 import 'package:aautop_designer/page/design/design.dart';
 import 'package:flutter/material.dart';
-import "package:aautop_designer/model/chatlogic_chatevent.dart";
+import "package:aautop_designer/model/chatlogic_model.dart";
 
 /// 可用于表示两个 [ChatEventUIPack] 的连接关系
 /// [outChatEvent] 表示父

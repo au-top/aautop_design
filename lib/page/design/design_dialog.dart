@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:aautop_designer/model/chatlogic.dart';
+import "package:aautop_designer/model/chatlogic_model.dart";
 import 'package:flutter/material.dart';
 import 'package:aautop_designer/page/design/design.dart';
 import 'package:aautop_designer/style/style.dart';
 import 'package:filepicker_windows/filepicker_windows.dart';
-import "package:aautop_designer/model_function.dart";
+
 
 class SaveDesignDialog extends StatefulWidget {
   final DesignData designData;

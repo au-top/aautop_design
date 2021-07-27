@@ -4,10 +4,9 @@ import 'package:aautop_designer/tool/widget/dependent.dart';
 import 'package:aautop_designer/tool/widget/free_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:aautop_designer/data/functions.dart';
-import "package:aautop_designer/model/chatlogic.dart";
-import "package:aautop_designer/model/chatlogic_msg.dart";
+import "package:aautop_designer/model/chatlogic_model.dart";
 import "package:aautop_designer/model/msg_type.dart";
-import "package:aautop_designer/model_function.dart";
+
 
 class MsgManage extends StatefulWidget {
   ChatLogic chatLogic;

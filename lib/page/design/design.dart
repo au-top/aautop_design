@@ -9,9 +9,9 @@ import 'package:aautop_designer/service/service_inherited.dart';
 import 'package:aautop_designer/service/window_titlebar_service.dart';
 import 'package:aautop_designer/style/less_popup_menu_item.dart';
 import 'package:aautop_designer/tool/widget/dependent.dart';
-import "package:aautop_designer/model/chatlogic.dart";
-import "package:aautop_designer/model/chatlogic_chatevent.dart";
-import "package:aautop_designer/model_function.dart";
+
+import "package:aautop_designer/model/chatlogic_model.dart";
+
 
 class DesignData extends ChangeNotifier {
   late ChatLogic chatLogic;
