@@ -25,8 +25,7 @@ class MsgManageStateData {
 }
 
 class MsgManageState extends State<MsgManage> {
-  final stateDataPack =
-      DataPack<MsgManageStateData>(data: MsgManageStateData());
+  final stateDataPack = DataPack<MsgManageStateData>(data: MsgManageStateData());
   ScrollController msgListScrollController = ScrollController();
 
   @override
@@ -46,13 +45,8 @@ class MsgManageState extends State<MsgManage> {
                   Expanded(
                     child: Dependent<DataPack<MsgManageStateData>>(
                       builder: (bc, data) {
-                        if (data.data.activeMsgId != null &&
-                            dataChatLogic.data.msgs!.indexWhere((element) =>
-                                    data.data.activeMsgId == element.msgId!) !=
-                                -1) {
-                          final showMsgElem = dataChatLogic.data.msgs![
-                              dataChatLogic.data.msgs!.indexWhere((element) =>
-                                  data.data.activeMsgId == element.msgId!)];
+                        if (data.data.activeMsgId != null && dataChatLogic.data.msgs!.indexWhere((element) => data.data.activeMsgId == element.msgId!) != -1) {
+                          final showMsgElem = dataChatLogic.data.msgs![dataChatLogic.data.msgs!.indexWhere((element) => data.data.activeMsgId == element.msgId!)];
                           return SizedBox(
                             child: SingleChildScrollView(
                               child: Column(
@@ -85,9 +79,7 @@ class MsgManageState extends State<MsgManage> {
                                       },
                                       isExpanded: true,
                                       items: [
-                                        ...MsgType.values
-                                            .map((e) => e.toEnumString())
-                                            .map(
+                                        ...MsgType.values.map((e) => e.toEnumString()).map(
                                               (e) => DropdownMenuItem(
                                                 child: Text(e),
                                                 value: e,
@@ -99,8 +91,7 @@ class MsgManageState extends State<MsgManage> {
                                   ),
                                   Container(
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         const Text(
                                           "内容表达式",
@@ -115,12 +106,10 @@ class MsgManageState extends State<MsgManage> {
                                             child: Container(
                                               child: Material(
                                                 child: TextField(
-                                                  controller:
-                                                      TextEditingController(
+                                                  controller: TextEditingController(
                                                     text: showMsgElem.content!,
                                                   ),
-                                                  decoration:
-                                                      const InputDecoration(
+                                                  decoration: const InputDecoration(
                                                     hintText: "消息表达式",
                                                     border: InputBorder.none,
                                                     isDense: true,
@@ -133,8 +122,7 @@ class MsgManageState extends State<MsgManage> {
                                                 ),
                                                 color: Colors.transparent,
                                               ),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                              padding: const EdgeInsets.symmetric(
                                                 horizontal: 12,
                                                 vertical: 5,
                                               ),
@@ -147,8 +135,7 @@ class MsgManageState extends State<MsgManage> {
                                         )
                                       ],
                                     ),
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 15),
+                                    padding: const EdgeInsets.symmetric(horizontal: 15),
                                   ),
                                   ListTile(
                                     trailing: ElevatedButton(
@@ -298,8 +285,7 @@ class MsgManageState extends State<MsgManage> {
     );
   }
 
-  PopupMenuButton<Function> msgConfigWidget(
-      DataPack<ChatLogic> dataChatLogic, int index) {
+  PopupMenuButton<Function> msgConfigWidget(DataPack<ChatLogic> dataChatLogic, int index) {
     return PopupMenuButton<Function>(
       elevation: 2,
       padding: const EdgeInsets.all(0),
@@ -317,8 +303,7 @@ class MsgManageState extends State<MsgManage> {
     );
   }
 
-  PopupMenuItem<Function> msgManageDeleteButtonWidget(
-      DataPack<ChatLogic> dataChatLogic, int index) {
+  PopupMenuItem<Function> msgManageDeleteButtonWidget(DataPack<ChatLogic> dataChatLogic, int index) {
     return PopupMenuItem(
       height: 18,
       padding: const EdgeInsets.symmetric(vertical: 0),
@@ -338,9 +323,7 @@ class MsgManageState extends State<MsgManage> {
         showDialog(
           context: context,
           builder: (bc) {
-            final editLists = dataChatLogic.data
-                .findMsgInEvent(findMsgId: delMsg.msgId!)
-                .toList();
+            final editLists = dataChatLogic.data.findMsgInEvent(findMsgId: delMsg.msgId!).toList();
             return Center(
               child: Container(
                 decoration: BoxDecoration(
@@ -349,8 +332,7 @@ class MsgManageState extends State<MsgManage> {
                 ),
                 width: 400,
                 height: 250,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Material(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,32 +346,33 @@ class MsgManageState extends State<MsgManage> {
                         child: ListView.builder(
                           itemBuilder: (bc, index) {
                             final findId = editLists[index];
-                            final findEvent =
-                                dataChatLogic.data.fromIdGetChatEvent(findId);
+                            final findEvent = dataChatLogic.data.fromIdGetChatEvent(findId);
                             if (findEvent != null) {
                               return Container(
-                                child: Text.rich(TextSpan(children: [
+                                child: Text.rich(
                                   TextSpan(
-                                      text:
-                                          "ID: ${findEvent.eventId.toString()}"),
-                                  const WidgetSpan(
-                                      child: SizedBox(
-                                    width: 10,
-                                  )),
-                                  WidgetSpan(
-                                    child: FreeChip(
-                                      label: Text(
-                                        findEvent.eventsType.toString(),
+                                    children: [
+                                      TextSpan(text: "ID: ${findEvent.eventId.toString()}"),
+                                      const WidgetSpan(
+                                          child: SizedBox(
+                                        width: 10,
+                                      )),
+                                      WidgetSpan(
+                                        child: FreeChip(
+                                          label: Text(
+                                            findEvent.eventsType.toString(),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                ])),
+                                    ],
+                                  ),
+                                ),
                                 margin: const EdgeInsets.symmetric(
                                   vertical: 10,
                                 ),
                               );
                             } else {
-                              return Text("No Find Event Id ${findId}");
+                              return Text("No Find Event Id $findId");
                             }
                           },
                           itemCount: editLists.length,
@@ -399,10 +382,13 @@ class MsgManageState extends State<MsgManage> {
                         data: ThemeData(
                           elevatedButtonTheme: ElevatedButtonThemeData(
                             style: ButtonStyle(
-                                elevation: MaterialStateProperty.all(0),
-                                padding: MaterialStateProperty.all(
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 20))),
+                              elevation: MaterialStateProperty.all(0),
+                              padding: MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                         child: Row(
@@ -414,8 +400,7 @@ class MsgManageState extends State<MsgManage> {
                               },
                               child: const Text("删除"),
                               style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(mainWarningColor),
+                                backgroundColor: MaterialStateProperty.all(mainWarningColor),
                               ),
                             ),
                             const SizedBox(
@@ -427,8 +412,7 @@ class MsgManageState extends State<MsgManage> {
                               },
                               child: const Text("取消"),
                               style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(mainColor),
+                                backgroundColor: MaterialStateProperty.all(mainColor),
                               ),
                             ),
                           ],

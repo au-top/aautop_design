@@ -11,16 +11,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 const mainWarningColor = Colors.red;
+const mainInvalidColor = Color.fromRGBO(173, 173, 173, 1.0);
 const mainColor = Colors.blue;
 const mainIconColor = Colors.black54;
+
 const mainTextColor = Color.fromRGBO(20, 20, 20, 1);
-const mainTextColorLow = Color.fromRGBO(80, 80, 80, 1);
+const mainTextColorLow = Color.fromRGBO(100, 100, 100, 1);
 const mainTextColorLess = Color.fromRGBO(232, 232, 232, 1);
 
 const h1TextStyle = TextStyle(fontSize: 20, color: mainTextColor);
 
-const h2TextStyle = TextStyle(fontSize: 20, color: mainTextColor);
-const h2TextStyleMin = TextStyle(fontSize: 20, color: mainTextColor);
+const h2TextStyle = TextStyle(fontSize: 18, color: mainTextColor);
+const h2TextStyleMin = TextStyle(fontSize: 17, color: mainTextColor);
 
 const h3TextStylePlus = TextStyle(fontSize: 16, color: mainTextColor);
 const h3TextStyle = TextStyle(fontSize: 16, color: mainTextColor);
@@ -38,6 +40,11 @@ const h6TextStyleLow = TextStyle(
   fontSize: 13,
   color: mainTextColorLow,
 );
+const h6TextStyleLowBold = TextStyle(
+    fontSize: 13,
+    color: mainTextColorLow,
+    fontWeight: FontWeight.bold
+);
 
 const h7TextStyle = TextStyle(
   fontSize: 12,
@@ -47,7 +54,10 @@ const h7TextStyleLow = TextStyle(
   fontSize: 12,
   color: mainTextColorLow,
 );
-
+const h8TextStyleLow = TextStyle(
+  fontSize: 11,
+  color: mainTextColorLow,
+);
 /// set paint debug mode
 const debugPaint = false;
 

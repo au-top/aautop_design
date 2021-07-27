@@ -15,10 +15,10 @@ this.min= jsondata["min"] ;
 ;
       
     }
-    String toJson() {
+    Map<dynamic,dynamic> toJson() {
       final jsonMapElem=new Map();jsonMapElem["max"]=this.max;
 jsonMapElem["min"]=this.min;
-return jsonEncode(jsonMapElem);;
+return jsonMapElem;;
     }
     
 }

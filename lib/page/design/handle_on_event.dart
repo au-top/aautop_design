@@ -1,5 +1,8 @@
 import 'package:aautop_designer/page/design/design.dart';
 import 'package:aautop_designer/page/design/chatevent_ui_packer.dart';
+import 'package:aautop_designer/service/service_inherited.dart';
+import 'package:aautop_designer/service/window_titlebar_service.dart';
+import 'package:aautop_designer/style/less_popup_menu_item.dart';
 import 'package:flutter/material.dart';
 import "package:aautop_designer/model_function.dart";
 extension HandleOnEvent on DesignState{
@@ -174,8 +177,4 @@ extension HandleOnEvent on DesignState{
     data.autoSortUIPack();
     data.notifyListeners();
   }
-
-
-
-
 }

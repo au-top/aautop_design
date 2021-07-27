@@ -22,12 +22,12 @@ class ChatLogicChatEventsIsTimer {
     ;
   }
 
-  String toJson() {
+  Map<dynamic,dynamic> toJson() {
     final jsonMapElem = new Map();
     jsonMapElem["timeCons"] = this.timeCons;
     jsonMapElem["frequency"] = this.frequency;
     jsonMapElem["coolDownTime"] = this.coolDownTime;
-    return jsonEncode(jsonMapElem);
+    return jsonMapElem;
     ;
   }
 }

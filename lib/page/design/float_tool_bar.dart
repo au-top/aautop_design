@@ -3,10 +3,62 @@ import 'dart:math';
 import 'package:aautop_designer/page/design/design.dart';
 import 'package:aautop_designer/page/design/chatevent_ui_packer.dart';
 import 'package:aautop_designer/page/design/design_link_line_point.dart';
+import 'package:aautop_designer/page/design/design_main.dart';
 import 'package:aautop_designer/style/style.dart';
 import 'package:flutter/material.dart';
 
+///
+/// design main Widget 中 浮动工具条的相关方法
+///
 extension FloatToolBar on DesignState {
+
+
+
+  /// floatbar 按钮组件
+  InkWell floatToolBarButton({
+    required String label,
+    required void Function() onTap,
+    required Widget showIcon,
+    TextStyle? textStyle,
+  }) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(3),
+      onTap: onTap,
+      child: Padding(
+        child: Row(
+          children: [
+            Text(
+              label,
+              style: textStyle ?? h4TextStyleLow,
+            ),
+            showIcon
+          ],
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 15),
+      ),
+    );
+  }
+
+
+  /// 竖线分割组件
+  Container dividingVertical() {
+    return Container(
+      height: 15,
+      decoration: const BoxDecoration(
+        border: Border(
+          left: BorderSide(
+            width: 1,
+            color: Colors.black38,
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  ///  floatChatEventTool 内容生成函数
   Widget buildFloatChatEventToolBarWidget() {
     return Row(
       children: [
@@ -25,6 +77,8 @@ extension FloatToolBar on DesignState {
     );
   }
 
+
+  ///  floatLinkTool 内容生成函数
   Widget buildFloatLinkToolBarWidget() {
     return Row(
       children: [
@@ -60,6 +114,9 @@ extension FloatToolBar on DesignState {
     );
   }
 
+
+
+  /// floatbar 盒子
   Widget buildFloatToolBarWidget(
     Widget showToolBar,
     bool showState, {
@@ -141,4 +198,32 @@ extension FloatToolBar on DesignState {
 
     return floatToolBarWidget;
   }
+
+
+
+
+
+
+  /// floatbar 入口生成函数
+  /// 这个函数是用于生成 各种 floatbar
+  ///
+  Widget floatLinkToolBarBuilder() {
+    Widget floatToolBarWidget;
+    if (data.activeLinkInfo.data != null) {
+      floatToolBarWidget = buildFloatToolBarWidget(buildFloatLinkToolBarWidget(), true, title: "Link");
+    } else if (data.activeUIPacker != null) {
+      floatToolBarWidget = buildFloatToolBarWidget(buildFloatChatEventToolBarWidget(), true, title: "ChatEvent");
+    } else {
+      floatToolBarWidget = buildFloatToolBarWidget(
+        const SizedBox(
+          width: 10,
+          height: 10,
+        ),
+        false,
+      );
+    }
+    return floatToolBarWidget;
+  }
+
+
 }

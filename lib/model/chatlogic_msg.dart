@@ -18,11 +18,11 @@ class ChatLogicMsg {
 
   }
 
-  String toJson() {
+  Map<dynamic,dynamic> toJson() {
     final jsonMapElem = new Map();
     jsonMapElem["msgId"] = this.msgId;
     jsonMapElem["type"] = this.type;
     jsonMapElem["content"] = this.content;
-    return jsonEncode(jsonMapElem);
+    return jsonMapElem;
   }
 }

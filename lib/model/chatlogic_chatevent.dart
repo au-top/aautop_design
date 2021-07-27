@@ -27,14 +27,14 @@ class ChatLogicChatEvent {
     ;
   }
 
-  String toJson() {
+  Map<dynamic,dynamic> toJson() {
     final jsonMapElem = new Map();
     jsonMapElem["eventId"] = this.eventId;
     jsonMapElem["eventsType"] = this.eventsType;
     jsonMapElem["isTimer"] = this.isTimer;
     jsonMapElem["isRes"] = this.isRes;
     jsonMapElem["sendMsgs"] = this.sendMsgs;
-    return jsonEncode(jsonMapElem);
+    return jsonMapElem;
     ;
   }
 }
