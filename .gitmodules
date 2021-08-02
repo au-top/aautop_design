@@ -1,0 +1,3 @@
+[submodule "plugin/bitsdojo_window"]
+	path = plugin/bitsdojo_window
+	url = https://github.com/au-top/bitsdojo_window.git

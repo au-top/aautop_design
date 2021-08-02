@@ -12,8 +12,9 @@ import 'package:aautop_designer/widget/windows_icon.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 void main() {
+
+
   runApp(Frame());
   if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
     doWhenWindowReady(() {
@@ -51,7 +52,7 @@ class Frame extends StatelessWidget {
       },
     );
 
-    return  Builder(
+    return Builder(
       builder: (bc) {
         return ServiceManage(
           buildContext: bc,
@@ -64,7 +65,7 @@ class Frame extends StatelessWidget {
               color: Colors.white,
               // borderRadius: BorderRadius.circular(15),
               // clipBehavior: Clip.antiAliasWithSaveLayer,
-              child:Column(
+              child: Column(
                 children: [
                   // setup app Info Service Widget
                   Builder(
@@ -121,7 +122,7 @@ class Frame extends StatelessWidget {
                     child: contentNav,
                   )
                 ],
-              ) ,
+              ),
             ),
           ),
         );
