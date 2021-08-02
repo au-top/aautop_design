@@ -3,10 +3,9 @@ import 'dart:io';
 
 import "package:aautop_designer/model/chatlogic_model.dart";
 import 'package:flutter/material.dart';
-import 'package:aautop_designer/page/design/design.dart';
+import 'package:aautop_designer/page/design.dart';
 import 'package:aautop_designer/style/style.dart';
 import 'package:filepicker_windows/filepicker_windows.dart';
-
 
 class SaveDesignDialog extends StatefulWidget {
   final DesignData designData;
@@ -34,13 +33,13 @@ class _SaveDesignDialogState extends State<SaveDesignDialog> {
     return widget.designData.saveDirPath;
   }
 
-  set createFileName(v) {
-    widget.designData.createFileName = v;
+  set createFileName(String v) {
+    widget.designData.saveFileName = v;
   }
 
   String get createFileName {
-    widget.designData.createFileName = ReadDesignDialog.createDefaultFileName();
-    return widget.designData.createFileName!;
+    widget.designData.saveFileName ??= SaveDesignDialog.createDefaultFileName();
+    return widget.designData.saveFileName!;
   }
 
   void saveToFile() {
@@ -49,6 +48,7 @@ class _SaveDesignDialogState extends State<SaveDesignDialog> {
       final writeJson = jsonEncode(widget.designData.chatLogic.toJson());
       saveToFile.createSync(recursive: true);
       saveToFile.writeAsStringSync(writeJson);
+      widget.designData.lastSaveTime = DateTime.now();
       Navigator.of(context).pop();
     }
   }
@@ -72,13 +72,6 @@ class _SaveDesignDialogState extends State<SaveDesignDialog> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 1,
-                offset: Offset(2, 2),
-              ),
-            ],
           ),
           child: Material(
             color: Colors.white,
@@ -252,29 +245,114 @@ class ReadDesignDialog extends StatefulWidget {
     return _ReadDesignDialogState();
   }
 
-  static String createDefaultFileName() {
-    final dateTimeNow = DateTime.now();
-    return "${dateTimeNow.year}_${dateTimeNow.month}_${dateTimeNow.day}_${dateTimeNow.hour}_${dateTimeNow.minute}_${dateTimeNow.second}";
+  static void startStartPickReadFile(DesignState designState) {
+    final filepicker = OpenFilePicker()
+      ..filterSpecification = {"JSON File": "*.json", "ALL File": "*.*"}
+      ..title = "载入新的Design文件";
+    final file = filepicker.getFile();
+    if (file != null) {
+      print("load file ${file.path}");
+      final fileContent = file.readAsStringSync();
+      final newChatLogic = ChatLogic.fromJson(jsonDecode(fileContent));
+      designState.recreateDesignData(newChatLogic);
+      //设置路径
+      designState.data.saveDirPath = file.parent.path;
+      //设置文件名字 去文件夹路径 去后缀
+      designState.data.saveFileName = (file.path.substring(designState.data.saveDirPath!.length + 1).split(".")..removeLast()).last;
+    } else {
+      print("no file");
+      return null;
+    }
   }
 }
 
 class _ReadDesignDialogState extends State<ReadDesignDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTileTheme(
+      child: IconTheme(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.white,
+          ),
+          child: Material(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const ListTile(
+                    title: Text("当前Design文件尚未保存,读取新文件将会丢失 ."),
+                  ),
+                  Padding(
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: const Icon(
+                            Icons.insert_drive_file,
+                            color: mainWarningColor,
+                          ),
+                          title: Text(
+                            "加载新Design文件",
+                            style: h4TextStyle.copyWith(color: mainWarningColor),
+                          ),
+                          onTap: () async {
+                            ReadDesignDialog.startStartPickReadFile(widget.designState);
+                            Navigator.pop(context);
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(
+                            Icons.save,
+                            color: mainColor,
+                          ),
+                          title: Text(
+                            "保存当前Design文件",
+                            style: h4TextStyle.copyWith(color: mainColor),
+                          ),
+                          onTap: () async {
+                            Navigator.pop(context);
+
+                            showSaveDesignDialog(context, widget.designState.data);
+                          },
+                        ),
+                      ],
+                      mainAxisSize: MainAxisSize.min,
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                  )
+                ],
+              ),
+            ),
+            color: Colors.transparent,
+          ),
+          height: 160,
+          width: 400,
+        ),
+        data: const IconThemeData(
+          color: Colors.blue,
+        ),
+      ),
+    );
+  }
+}
+
+class CreateNewDesignDialog extends StatefulWidget {
+  final DesignState designState;
+
+  const CreateNewDesignDialog({Key? key, required this.designState}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _CreateNewDialogState();
+  }
+
+  static void createNewDesign(DesignState designState) {
+    designState.recreateDesignData(ChatLogic(msgs: [], chatEvents: []));
+  }
+}
+
+class _CreateNewDialogState extends State<CreateNewDesignDialog> {
   /// proxy to designData attr
-  set saveDirPath(v) {
-    widget.designState.data.saveDirPath = v;
-  }
-
-  String? get saveDirPath {
-    return widget.designState.data.saveDirPath;
-  }
-
-  set createFileName(v) {
-    widget.designState.data.createFileName = v;
-  }
-
-  String? get createFileName {
-    return widget.designState.data.createFileName!;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -282,46 +360,48 @@ class _ReadDesignDialogState extends State<ReadDesignDialog> {
       child: IconTheme(
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(12),
             color: Colors.white,
           ),
           child: Material(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: const Icon(
-                      Icons.insert_drive_file,
-                      color: Colors.blue,
-                    ),
-                    title: const Text(
-                      "加载新Design文件",
-                      style: h4TextStyle,
-                    ),
-                    onTap: () {
-                      final filepicker = OpenFilePicker()
-                        ..filterSpecification = {"JSON File": "*.json", "ALL File": "*.*"}
-                        ..title = "载入新的Design文件";
-                      final file = filepicker.getFile();
-                      if(file!=null){
-                        print("load file ${file.path}");
-                        final fileContent=file.readAsStringSync();
-                        print(fileContent);
-                        ChatLogic.fromJson(jsonDecode(fileContent));
-                        print(ChatLogic);
-                      }else{
-                        print("no file");
-                      }
-                      // print(file.path);
-                    },
-                  )
-                ],
-              ),
+            child: Column(
+              children: [
+                const ListTile(
+                  title: Text("当前文件尚未保存,如果新建将丢失"),
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.done,
+                    color: mainWarningColor,
+                  ),
+                  title: const Text(
+                    "确定",
+                    style: TextStyle(color: mainWarningColor),
+                  ),
+                  onTap: () {
+                    CreateNewDesignDialog.createNewDesign(widget.designState);
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.close,
+                    color: mainColor,
+                  ),
+                  title: const Text(
+                    "取消",
+                    style: TextStyle(color: mainColor),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
             color: Colors.transparent,
           ),
-          height: 200,
-          width: 400,
+          width: 320,
+          height: 160,
         ),
         data: const IconThemeData(
           color: Colors.blue,
@@ -345,16 +425,44 @@ Future<void> showSaveDesignDialog(BuildContext context, DesignData designData) a
   );
 }
 
+Future<void> showCreateDesignDialog(BuildContext context, DesignState designState) async {
+  if (designState.data.getLastSaveDuration().inSeconds < 10) {
+    // 差异小于 10秒
+    // 直接新建
+    CreateNewDesignDialog.createNewDesign(designState);
+  } else {
+    // 询问
+    showDialog(
+      context: context,
+      barrierColor: Colors.black12,
+      builder: (bc) {
+        return Center(
+          child: CreateNewDesignDialog(
+            designState: designState,
+          ),
+        );
+      },
+    );
+  }
+}
+
 Future<void> showReadDesignDialog(BuildContext context, DesignState designState) async {
-  showDialog(
-    context: context,
-    barrierColor: Colors.black12,
-    builder: (bc) {
-      return Center(
-        child: ReadDesignDialog(
-          designState: designState,
-        ),
-      );
-    },
-  );
+  if (designState.data.getLastSaveDuration().inSeconds < 10) {
+    // 差异小于 10秒
+    // 直接进行选择文件读取
+    ReadDesignDialog.startStartPickReadFile(designState);
+  } else {
+    // 询问
+    showDialog(
+      context: context,
+      barrierColor: Colors.black12,
+      builder: (bc) {
+        return Center(
+          child: ReadDesignDialog(
+            designState: designState,
+          ),
+        );
+      },
+    );
+  }
 }

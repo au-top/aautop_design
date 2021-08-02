@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:aautop_designer/page/design/design.dart';
+import 'package:aautop_designer/page/about.dart';
+import 'package:aautop_designer/page/design.dart';
+import 'package:aautop_designer/service/app_info_service.dart';
 import 'package:aautop_designer/service/service_inherited.dart';
 import 'package:aautop_designer/service/window_titlebar_service.dart';
 import 'package:aautop_designer/style/style.dart';
+import 'package:aautop_designer/widget/windows_icon.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +30,7 @@ void main() {
 
 class Frame extends StatelessWidget {
   final globalWindowTitlebarServiceKey = GlobalKey();
+  final globalAppInfoServiceKey = GlobalKey();
 
   Frame({Key? key}) : super(key: key);
 
@@ -46,21 +51,26 @@ class Frame extends StatelessWidget {
       },
     );
 
-    return MaterialApp(
-      theme: buildRootThemeData(context),
-      debugShowCheckedModeBanner: false,
-      home: Material(
-        color: Colors.white,
-        // borderRadius: BorderRadius.circular(15),
-        // clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: Builder(
-          builder: (bc) {
-            return ServiceManage(
-              buildContext: bc,
-              setWindowTitlebarService: globalWindowTitlebarServiceKey,
-              child: Column(
+    return  Builder(
+      builder: (bc) {
+        return ServiceManage(
+          buildContext: bc,
+          setWindowTitlebarService: globalWindowTitlebarServiceKey,
+          setAppInfoService: globalAppInfoServiceKey,
+          child: MaterialApp(
+            theme: buildRootThemeData(context),
+            debugShowCheckedModeBanner: false,
+            home: Material(
+              color: Colors.white,
+              // borderRadius: BorderRadius.circular(15),
+              // clipBehavior: Clip.antiAliasWithSaveLayer,
+              child:Column(
                 children: [
-                  // window title system bar
+                  // setup app Info Service Widget
+                  Builder(
+                    builder: (bc) => AppInfo(key: ServiceManage.of(bc).appInfoService),
+                  ),
+                  // setup window title system bar Service Widget
                   Builder(
                     builder: (bc) => Container(
                       color: Colors.white,
@@ -73,7 +83,22 @@ class Frame extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 5, top: 6),
                                 child: Row(
                                   children: [
-                                    const FlutterLogo(),
+                                    GestureDetector(
+                                      child: Hero(
+                                        tag: "windowsIcon",
+                                        child: Tooltip(
+                                          child: windowsIcon(),
+                                          message: "关于",
+                                        ),
+                                      ),
+                                      onPanDown: (d) {
+                                        Navigator.of(bc).push(
+                                          MaterialPageRoute(
+                                            builder: (bc) => buildAbout(bc),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                     Expanded(
                                       child: WindowTitlebar(
                                         key: ServiceManage.of(bc).windowTitlebarService,
@@ -91,15 +116,16 @@ class Frame extends StatelessWidget {
                       ),
                     ),
                   ),
+                  //content body
                   Expanded(
                     child: contentNav,
                   )
                 ],
-              ),
-            );
-          },
-        ),
-      ),
+              ) ,
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -140,9 +166,6 @@ final closeButtonColors = WindowButtonColors(
 class WindowButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-
-
     return Row(
       children: [
         MinimizeWindowButton(

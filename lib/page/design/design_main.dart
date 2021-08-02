@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 
 
 import 'package:flutter/painting.dart';
-import 'package:aautop_designer/page/design/design.dart';
+import 'package:aautop_designer/page/design.dart';
 import 'package:flutter/cupertino.dart';
 
 ///
@@ -142,7 +142,7 @@ extension DesignMain on DesignState {
                                     maxValue: 1.0,
                                   ),
                                   start: minMax(
-                                    transformationController.toScene(Offset.zero).dy / maxBarHeight,
+                                   data.viewBoxOffset.dy / maxBarHeight,
                                     minValue: 0.0,
                                     maxValue: 1.0,
                                   ),
@@ -169,7 +169,7 @@ extension DesignMain on DesignState {
                                     maxValue: 1.0,
                                   ),
                                   start: minMax(
-                                    transformationController.toScene(Offset.zero).dx / maxBarWidth,
+                                    data.viewBoxOffset.dx / maxBarWidth,
                                     minValue: 0.0,
                                     maxValue: 1.0,
                                   ),

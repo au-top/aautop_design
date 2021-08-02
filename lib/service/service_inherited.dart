@@ -6,17 +6,20 @@ abstract class ServiceWidget<T>   {
 
 class ServiceManage extends InheritedWidget {
   late final GlobalKey windowTitlebarService;
+  late final GlobalKey appInfoService;
   ServiceManage({
     Key? key,
     required GlobalKey? setWindowTitlebarService,
+    required GlobalKey? setAppInfoService,
     required BuildContext buildContext,
     required Widget child,
   }) : super(key: key, child: child){
     windowTitlebarService=setWindowTitlebarService??ServiceManage.of(buildContext).windowTitlebarService;
+    appInfoService=setAppInfoService??ServiceManage.of(buildContext).appInfoService;
   }
   @override
   bool updateShouldNotify(ServiceManage oldWidget) {
-    return windowTitlebarService!=oldWidget.windowTitlebarService;
+    return windowTitlebarService!=oldWidget.windowTitlebarService||appInfoService!=oldWidget.appInfoService;
   }
 
 

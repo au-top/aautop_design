@@ -7,7 +7,6 @@ import 'package:aautop_designer/data/functions.dart';
 import "package:aautop_designer/model/chatlogic_model.dart";
 import "package:aautop_designer/model/msg_type.dart";
 
-
 class MsgManage extends StatefulWidget {
   ChatLogic chatLogic;
 
@@ -209,13 +208,13 @@ class MsgManageState extends State<MsgManage> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      dataChatLogic.data.msgs!.add(
-                        ChatLogicMsg(
-                          type: MsgType.text.toEnumString(),
-                          content: '',
-                          msgId: chatLogicMsgIDBuild(),
-                        ),
+                      final newData = ChatLogicMsg(
+                        type: MsgType.text.toEnumString(),
+                        content: '',
+                        msgId: chatLogicMsgIDBuild(),
                       );
+                      dataChatLogic.data.msgs!.add(newData);
+                      stateDataPack.data.activeMsgId = newData.msgId;
                       dataChatLogic.notifyListeners();
                     },
                     icon: const Icon(

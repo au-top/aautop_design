@@ -31,6 +31,7 @@ const h4TextStyle = TextStyle(fontSize: 15, color: mainTextColor);
 const h4TextStyleLow = TextStyle(fontSize: 15, color: mainTextColorLow);
 
 const h5TextStyle = TextStyle(fontSize: 14, color: mainTextColor);
+const h5TextStyleBold = TextStyle(fontSize: 14, color: mainTextColor, fontWeight: FontWeight.bold);
 
 const h6TextStyle = TextStyle(
   fontSize: 13,
@@ -40,11 +41,7 @@ const h6TextStyleLow = TextStyle(
   fontSize: 13,
   color: mainTextColorLow,
 );
-const h6TextStyleLowBold = TextStyle(
-    fontSize: 13,
-    color: mainTextColorLow,
-    fontWeight: FontWeight.bold
-);
+const h6TextStyleLowBold = TextStyle(fontSize: 13, color: mainTextColorLow, fontWeight: FontWeight.bold);
 
 const h7TextStyle = TextStyle(
   fontSize: 12,
@@ -58,6 +55,7 @@ const h8TextStyleLow = TextStyle(
   fontSize: 11,
   color: mainTextColorLow,
 );
+
 /// set paint debug mode
 const debugPaint = false;
 
@@ -66,7 +64,6 @@ ThemeData buildRootThemeData(BuildContext context) => ThemeData(
       // splashColor: const Color.fromRGBO(30, 30,30, 0.1),
       splashColor: Colors.blueGrey.withOpacity(0.1),
       scrollbarTheme: ScrollbarThemeData(
-        isAlwaysShown: true,
         thickness: MaterialStateProperty.all(7),
       ),
       // splashFactory: InkRipple.splashFactory,
@@ -82,6 +79,7 @@ ThemeData buildRootThemeData(BuildContext context) => ThemeData(
           ),
         ),
       ),
+      dividerTheme: const DividerThemeData(color: Colors.transparent),
       textTheme: const TextTheme(
         bodyText1: h6TextStyle,
         bodyText2: h6TextStyle,
@@ -96,6 +94,9 @@ ThemeData buildRootThemeData(BuildContext context) => ThemeData(
       inputDecorationTheme: const InputDecorationTheme(
         isDense: true,
       ),
+      pageTransitionsTheme: const PageTransitionsTheme(builders: <TargetPlatform, PageTransitionsBuilder>{
+        TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+      }),
     );
 
 ChipThemeData buildChipThemeData(BuildContext bc) => ChipThemeData(

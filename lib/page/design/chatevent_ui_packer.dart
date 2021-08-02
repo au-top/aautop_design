@@ -1,6 +1,6 @@
 import 'package:aautop_designer/model/events_type.dart';
 
-import 'package:aautop_designer/page/design/design.dart';
+import 'package:aautop_designer/page/design.dart';
 import 'package:flutter/material.dart';
 import "package:aautop_designer/model/chatlogic_model.dart";
 
@@ -115,7 +115,7 @@ class ChatEventUIPacker extends ChangeNotifier {
   /// 目前无用
   String remarks = "";
 
-  static Size sizeCon = const Size(280, 140);
+  static Size sizeCon = const Size(280, 170);
 
   double top;
   double left;

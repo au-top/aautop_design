@@ -21,6 +21,5 @@ class ChatLogic {
     jsonMapElem["chatEvents"] = this.chatEvents;
     jsonMapElem["msgs"] = this.msgs;
     return jsonMapElem;
-    ;
   }
 }

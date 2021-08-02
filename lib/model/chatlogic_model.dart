@@ -1,5 +1,6 @@
 /// Direct export
 
+import 'package:aautop_designer/model/msg_type.dart';
 import 'package:aautop_designer/model/raw/chatlogic_chatevents_timecons.dart';
 import 'package:aautop_designer/model/raw/chatlogic_chatevents.dart';
 import 'package:aautop_designer/model/raw/chatlogic_msgs.dart';
@@ -32,6 +33,16 @@ extension ChatLogicChatEventTypeTest on ChatLogicChatEvent {
   bool get testIsRes=>eventsType==EventsType.res.toEnumString();
   bool get testIsSubRes=>eventsType==EventsType.subres.toEnumString();
   bool get testIsTimer=>eventsType==EventsType.timer.toEnumString();
+}
+
+extension ChatLogicMsgsTypeTest on ChatLogicMsgs{
+  bool get testIsAnyOn=>type==MsgType.onImage.toEnumString()||type==MsgType.onText.toEnumString();
+  bool get testIsAnyStatic=>type==MsgType.text.toEnumString()||type==MsgType.image.toEnumString();
+  bool get testIsOnText=>type==MsgType.onText.toEnumString();
+  bool get testIsOnImage=>type==MsgType.onImage.toEnumString();
+  bool get testIsText=>type==MsgType.text.toEnumString();
+  bool get testIsImage=>type==MsgType.image.toEnumString();
+
 }
 
 
@@ -87,15 +98,17 @@ extension ChatLogicFunction on ChatLogic {
     return ChatLogicChatEvent(
       sendMsgs: [],
       isRes: ChatLogicChatEventsIsRes(
-        timeCons: [],
+        timeCons: [
+          ChatLogicChatEventsTimeCon(max: "23:59",min: "00:00")
+        ],
         priorityEventLists: [],
         listenOn: null,
-        delay: null,
+        delay: 2000,
       ),
       isTimer: ChatLogicChatEventsIsTimer(
         timeCons: [],
-        coolDownTime: null,
-        frequency: null,
+        coolDownTime: 1000*60*15,
+        frequency: 10,
       ),
       eventsType: (eventsType ?? EventsType.res).toEnumString(),
       eventId: chatLogicMsgIDBuild(),

@@ -14,10 +14,8 @@ class ChatLogicChatEventsIsTimer {
 
   ChatLogicChatEventsIsTimer.fromJson(Map<String, dynamic> jsondata) {
     this.timeCons = List<ChatLogicChatEventsTimeCons>.from(jsondata["timeCons"].map((e) => ChatLogicChatEventsTimeCons.fromJson(e)));
-    ;
     this.frequency = jsondata["frequency"];
     this.coolDownTime = jsondata["coolDownTime"];
-    ;
   }
 
   Map<dynamic, dynamic> toJson() {
@@ -26,6 +24,5 @@ class ChatLogicChatEventsIsTimer {
     jsonMapElem["frequency"] = this.frequency;
     jsonMapElem["coolDownTime"] = this.coolDownTime;
     return jsonMapElem;
-    ;
   }
 }

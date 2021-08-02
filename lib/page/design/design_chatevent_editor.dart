@@ -1,8 +1,9 @@
 import 'dart:math';
 
-import 'package:aautop_designer/page/design/design.dart';
+import 'package:aautop_designer/page/design.dart';
 import 'package:aautop_designer/page/msg_select.dart';
 import 'package:aautop_designer/page/msg_manage.dart';
+import 'package:aautop_designer/style/less_divider.dart';
 import 'package:aautop_designer/style/less_dropdown_button.dart';
 import 'package:aautop_designer/style/style.dart';
 import 'package:aautop_designer/tool/textfield_filter.dart';
@@ -15,9 +16,7 @@ import "package:aautop_designer/model/events_type.dart";
 
 import 'package:flutter/painting.dart';
 
-extension DesignChatEventEditor on DesignState{
-
-
+extension DesignChatEventEditor on DesignState {
   Widget onTimerConfigWidget(DesignData data, BuildContext context) {
     final chatEvent = data.activeUIPacker!.chatEvent;
     return Column(
@@ -27,7 +26,7 @@ extension DesignChatEventEditor on DesignState{
           "定时器配置",
           style: h3TextStylePlus,
         ),
-        const Divider(),
+        buildLessDivider(),
         inputTextWidget(
           label: "最小间隔时间",
           trailing: "ms",
@@ -68,7 +67,7 @@ extension DesignChatEventEditor on DesignState{
           "响应式配置",
           style: h3TextStylePlus,
         ),
-        const Divider(),
+        buildLessDivider(),
         inputTextWidget(
             label: "延迟时间",
             trailing: "ms",
@@ -134,14 +133,15 @@ extension DesignChatEventEditor on DesignState{
               return [
                 ...chatEvent.sendMsgs!.map<ChatLogicMsg?>((e) => data.chatLogic.fromIdGetMsg(e)).where((element) => element != null).map(
                       (e) => Container(
-                    child: msgCard(e!),
-                    padding: const EdgeInsets.only(top: 1, bottom: 3, left: 6, right: 0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: mainTextColorLess),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  ),
-                )
+                        child: msgCard(e!),
+                        padding: const EdgeInsets.only(top: 1, bottom: 3, left: 6, right: 0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: mainTextColorLess),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        margin: const EdgeInsets.only(bottom: 5),
+                      ),
+                    )
               ];
             },
             height: 100,
@@ -153,10 +153,10 @@ extension DesignChatEventEditor on DesignState{
   }
 
   Widget timeConsWidget(
-      BuildContext context,
-      List<ChatLogicChatEventsTimeCon> timeCons,
-      DesignData data,
-      ) {
+    BuildContext context,
+    List<ChatLogicChatEventsTimeCon> timeCons,
+    DesignData data,
+  ) {
     return attrLists(
       context,
       title: const Text(
@@ -166,69 +166,69 @@ extension DesignChatEventEditor on DesignState{
       builderListElem: (bc) => timeCons
           .map(
             (e) => Container(
-          child: Row(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    InkWell(
-                      child: Text(
-                        e.min.toString(),
-                        style: h5TextStyle,
-                      ),
-                      onTap: () {
-                        showTimePicker(context: context, initialTime: easyTimeStrToTimeOfDay(e.min!)).then((value) {
-                          if (value != null) {
-                            e.min = timeOfDayToEasyTimeStr(value);
-                            data.notifyListeners();
-                          }
-                        });
-                      },
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        InkWell(
+                          child: Text(
+                            e.min.toString(),
+                            style: h5TextStyle,
+                          ),
+                          onTap: () {
+                            showTimePicker(context: context, initialTime: easyTimeStrToTimeOfDay(e.min!)).then((value) {
+                              if (value != null) {
+                                e.min = timeOfDayToEasyTimeStr(value);
+                                data.notifyListeners();
+                              }
+                            });
+                          },
+                        ),
+                        const Text(
+                          "-",
+                          style: h5TextStyle,
+                        ),
+                        InkWell(
+                          child: Text(
+                            e.max.toString(),
+                            style: h5TextStyle,
+                          ),
+                          onTap: () {
+                            showTimePicker(context: context, initialTime: easyTimeStrToTimeOfDay(e.min!)).then((value) {
+                              if (value != null) {
+                                e.max = timeOfDayToEasyTimeStr(value);
+                                data.notifyListeners();
+                              }
+                            });
+                          },
+                        ),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     ),
-                    const Text(
-                      "-",
-                      style: h5TextStyle,
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      color: mainIconColor,
                     ),
-                    InkWell(
-                      child: Text(
-                        e.max.toString(),
-                        style: h5TextStyle,
-                      ),
-                      onTap: () {
-                        showTimePicker(context: context, initialTime: easyTimeStrToTimeOfDay(e.min!)).then((value) {
-                          if (value != null) {
-                            e.max = timeOfDayToEasyTimeStr(value);
-                            data.notifyListeners();
-                          }
-                        });
-                      },
-                    ),
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    onPressed: () {
+                      timeCons.remove(e);
+                      data.notifyListeners();
+                    },
+                  )
+                ],
+              ),
+              margin: const EdgeInsets.only(
+                bottom: 8,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  50,
                 ),
               ),
-              IconButton(
-                icon: const Icon(
-                  Icons.close_rounded,
-                  color: mainIconColor,
-                ),
-                onPressed: () {
-                  timeCons.remove(e);
-                  data.notifyListeners();
-                },
-              )
-            ],
-          ),
-          margin: const EdgeInsets.only(
-            bottom: 8,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              50,
             ),
-          ),
-        ),
-      )
+          )
           .toList(),
       titleTrailing: IconButton(
         icon: const Icon(
@@ -280,14 +280,14 @@ extension DesignChatEventEditor on DesignState{
         underline: Container(),
         isExpanded: true,
         items: [
-          ...data.chatLogic.msgs!.map(
+          ...data.chatLogic.msgs!.where((element) => element.testIsAnyOn).map(
                 (e) => DropdownMenuItem<String>(
-              child: FittedBox(
-                child: msgCard(e),
-              ),
-              value: e.msgId!,
-            ),
-          )
+                  child: FittedBox(
+                    child: msgCard(e),
+                  ),
+                  value: e.msgId!,
+                ),
+              )
         ],
         value: chatEvent.isRes!.listenOn,
         onChanged: (v) {
@@ -347,12 +347,12 @@ extension DesignChatEventEditor on DesignState{
   }
 
   SizedBox attrLists(
-      BuildContext context, {
-        required List<Widget> Function(BuildContext) builderListElem,
-        Widget? title,
-        Widget? titleTrailing,
-        double? height,
-      }) {
+    BuildContext context, {
+    required List<Widget> Function(BuildContext) builderListElem,
+    Widget? title,
+    Widget? titleTrailing,
+    double? height,
+  }) {
     return SizedBox(
       child: Column(
         children: [
@@ -370,67 +370,84 @@ extension DesignChatEventEditor on DesignState{
     );
   }
 
-  Container sideBoxWidget(BuildContext context) {
+  Widget sideBoxWidget(BuildContext context) {
     final chatEvent = data.activeUIPacker?.chatEvent;
     Widget content;
-
     if (chatEvent != null) {
-      content = ListView(
-        children: [
-          const Text(
-            "事件类型配置",
-            style: h3TextStylePlus,
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Text(
-              "ID",
-              style: h5TextStyle,
-            ),
-            title: Text(
-              chatEvent.eventId.toString(),
-            ),
-          ),
-          ListTile(
-            leading: const Text(
-              "事件类型",
-              style: h5TextStyle,
-            ),
-            title: buildLessDropdownButton<String>(
-              underline: Container(),
-              value: chatEvent.eventsType,
-              isExpanded: true,
-              isDense: true,
-              onChanged: (nv) {
-                chatEvent.eventsType = nv;
-                data.notifyListeners();
-              },
-              items: EventsType.values.map((e) => DropdownMenuItem<String>(
-                  child: Text(
-                    e.toEnumString(),
+      content = LayoutBuilder(builder: (bc, con) {
+        return SingleChildScrollView(
+          child: Theme(
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "事件类型配置",
+                    style: h3TextStylePlus,
                   ),
-                  value: e.toEnumString(),
-                ),
-              ).toList(),
+                  buildLessDivider(),
+                  ListTile(
+                    leading: const Text(
+                      "ID",
+                      style: h5TextStyle,
+                    ),
+                    title: Text(
+                      chatEvent.eventId.toString(),
+                    ),
+                  ),
+                  ListTile(
+                    leading: const Text(
+                      "事件类型",
+                      style: h5TextStyle,
+                    ),
+                    title: buildLessDropdownButton<String>(
+                      underline: Container(),
+                      value: chatEvent.eventsType,
+                      isExpanded: true,
+                      isDense: true,
+                      onChanged: (nv) {
+                        chatEvent.eventsType = nv;
+                        data.notifyListeners();
+                      },
+                      items: EventsType.values
+                          .map(
+                            (e) => DropdownMenuItem<String>(
+                              child: Text(
+                                e.toEnumString(),
+                              ),
+                              value: e.toEnumString(),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                  ListTile(
+                    title: sendMsgsWidget(context, chatEvent, data),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Builder(builder: (bc) {
+                    if (chatEvent.eventsType == EventsType.res.toEnumString() || chatEvent.eventsType == EventsType.subres.toEnumString()) {
+                      return onResConfigWidget(data, context);
+                    } else if (chatEvent.eventsType == EventsType.timer.toEnumString()) {
+                      return onTimerConfigWidget(data, context);
+                    } else {
+                      return const Text("No Def Type");
+                    }
+                  })
+                ],
+              ),
+              constraints: BoxConstraints(minHeight: con.maxHeight),
+              padding: const EdgeInsets.only(right: 12),
+            ),
+            data: buildRootThemeData(context).copyWith(
+              scrollbarTheme: const ScrollbarThemeData(isAlwaysShown: true),
             ),
           ),
-          ListTile(
-            title: sendMsgsWidget(context, chatEvent, data),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Builder(builder: (bc) {
-            if (chatEvent.eventsType == EventsType.res.toEnumString() || chatEvent.eventsType == EventsType.subres.toEnumString()) {
-              return onResConfigWidget(data, context);
-            } else if (chatEvent.eventsType == EventsType.timer.toEnumString()) {
-              return onTimerConfigWidget(data, context);
-            } else {
-              return const Text("No Def Type");
-            }
-          })
-        ],
-      );
+        );
+      });
     } else {
       content = const Center(
         child: Text("No Active Event"),
@@ -442,7 +459,7 @@ extension DesignChatEventEditor on DesignState{
         color: Colors.white,
       ),
       padding: const EdgeInsets.only(left: 10, right: 5, top: 10),
-      width: 270,
+      width: 290,
       child: content,
     );
   }

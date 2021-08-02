@@ -1,6 +1,6 @@
 
 
-import 'package:aautop_designer/page/design/design.dart';
+import 'package:aautop_designer/page/design.dart';
 import 'package:aautop_designer/style/style.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;

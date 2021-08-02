@@ -1,19 +1,18 @@
 import 'package:aautop_designer/model/chatlogic_model.dart';
-import 'package:aautop_designer/page/design/design.dart';
+import 'package:aautop_designer/page/design.dart';
 import 'package:aautop_designer/page/design/chatevent_ui_packer.dart';
 import 'package:aautop_designer/service/service_inherited.dart';
 import 'package:aautop_designer/service/window_titlebar_service.dart';
 import 'package:aautop_designer/style/less_popup_menu_item.dart';
 import 'package:flutter/material.dart';
 
-extension HandleOnEvent on DesignState{
-
+extension HandleOnEvent on DesignState {
   clearDesignState(
       {required bool clearMoveUIPack,
-        required bool clearActiveJunctionInfo,
-        required bool clearConPointEnum,
-        required bool clearOutActiveChatEventId,
-        required bool clearDownMoveMouse}) {
+      required bool clearActiveJunctionInfo,
+      required bool clearConPointEnum,
+      required bool clearOutActiveChatEventId,
+      required bool clearDownMoveMouse}) {
     if (clearMoveUIPack) {
       data.moveUIPacker.data = null;
     }
@@ -37,31 +36,18 @@ extension HandleOnEvent on DesignState{
 
     final testRes = (() {
       // test click card
-      for (int _i=data.chatEventUIPackers.length-1;_i>=0;_i--) {
-        var element=data.chatEventUIPackers[_i];
+      for (int _i = data.chatEventUIPackers.length - 1; _i >= 0; _i--) {
+        var element = data.chatEventUIPackers[_i];
         if (element.chatEvent.testIsAnyRes) {
           if (element.buildLinkPoint().contains(details.localPosition)) {
-            clearDesignState(
-                clearMoveUIPack: true,
-                clearActiveJunctionInfo: true,
-                clearConPointEnum: true,
-                clearOutActiveChatEventId: true,
-                clearDownMoveMouse: true);
+            clearDesignState(clearMoveUIPack: true, clearActiveJunctionInfo: true, clearConPointEnum: true, clearOutActiveChatEventId: true, clearDownMoveMouse: true);
             data.outActiveChatEventId = element.chatEvent.eventId;
             return true;
           }
 
-          for (final inEventId
-          in element.chatEvent.isRes!.priorityEventLists!) {
-            if (element
-                .buildClickPath(data, inEventId)
-                .contains(details.localPosition)) {
-              clearDesignState(
-                  clearMoveUIPack: true,
-                  clearActiveJunctionInfo: true,
-                  clearConPointEnum: true,
-                  clearOutActiveChatEventId: true,
-                  clearDownMoveMouse: true);
+          for (final inEventId in element.chatEvent.isRes!.priorityEventLists!) {
+            if (element.buildClickPath(data, inEventId).contains(details.localPosition)) {
+              clearDesignState(clearMoveUIPack: true, clearActiveJunctionInfo: true, clearConPointEnum: true, clearOutActiveChatEventId: true, clearDownMoveMouse: true);
               // In端存在
               assert(data.chatLogic.fromIdGetChatEvent(inEventId) != null);
               data.activeLinkInfo.data = ResLinkInfo.fromRawIdStr(
@@ -74,42 +60,20 @@ extension HandleOnEvent on DesignState{
         }
 
         if (data.activeLinkInfo.data != null) {
-          final outUIPack = data
-              .fromIdFindUIPacker(data.activeLinkInfo.data!.outChatEventId)!;
+          final outUIPack = data.fromIdFindUIPacker(data.activeLinkInfo.data!.outChatEventId)!;
           final inUIPack = data.activeLinkInfo.data!.inChatEventId;
-          if (outUIPack
-              .buildConLinkLineA(data, inUIPack)
-              .contains(details.localPosition)) {
-            clearDesignState(
-                clearMoveUIPack: true,
-                clearActiveJunctionInfo: false,
-                clearConPointEnum: false,
-                clearOutActiveChatEventId: true,
-                clearDownMoveMouse: true);
+          if (outUIPack.buildConLinkLineA(data, inUIPack).contains(details.localPosition)) {
+            clearDesignState(clearMoveUIPack: true, clearActiveJunctionInfo: false, clearConPointEnum: false, clearOutActiveChatEventId: true, clearDownMoveMouse: true);
             data.conPointEnum = ChatEventUIPackerLinkBesselLineConEnum.A;
             return true;
           }
-          if (outUIPack
-              .buildConLinkLineB(data, inUIPack)
-              .contains(details.localPosition)) {
-            clearDesignState(
-                clearMoveUIPack: true,
-                clearActiveJunctionInfo: false,
-                clearConPointEnum: false,
-                clearOutActiveChatEventId: true,
-                clearDownMoveMouse: true);
+          if (outUIPack.buildConLinkLineB(data, inUIPack).contains(details.localPosition)) {
+            clearDesignState(clearMoveUIPack: true, clearActiveJunctionInfo: false, clearConPointEnum: false, clearOutActiveChatEventId: true, clearDownMoveMouse: true);
             data.conPointEnum = ChatEventUIPackerLinkBesselLineConEnum.B;
             return true;
           }
-        } else if (element
-            .buildCardRectPath()
-            .contains(details.localPosition)) {
-          clearDesignState(
-              clearMoveUIPack: true,
-              clearActiveJunctionInfo: true,
-              clearConPointEnum: true,
-              clearOutActiveChatEventId: true,
-              clearDownMoveMouse: true);
+        } else if (element.buildCardRectPath().contains(details.localPosition)) {
+          clearDesignState(clearMoveUIPack: true, clearActiveJunctionInfo: true, clearConPointEnum: true, clearOutActiveChatEventId: true, clearDownMoveMouse: true);
           data.moveUIPacker.data = element;
           return true;
         }
@@ -128,17 +92,14 @@ extension HandleOnEvent on DesignState{
     data.moveUIPacker.notifyListeners();
   }
 
-
   handleOnPanUpdate(DragUpdateDetails details) {
     data.downMouseOffset = details.localPosition;
     if (data.moveUIPacker.data != null) {
       data.moveUIPacker.data!.updatePosFromOffset(details.delta);
-    }else if (data.conPointEnum != null && data.activeLinkInfo.data != null) {
+    } else if (data.conPointEnum != null && data.activeLinkInfo.data != null) {
       final junctionInfo = data.activeLinkInfo.data!;
-      final outChatEventPack =
-      data.fromIdFindUIPacker(junctionInfo.outChatEventId);
-      outChatEventPack!.linkBesselLineCons[junctionInfo.inChatEventId]!
-          .setRelativeOffset(data.conPointEnum!, details.delta);
+      final outChatEventPack = data.fromIdFindUIPacker(junctionInfo.outChatEventId);
+      outChatEventPack!.linkBesselLineCons[junctionInfo.inChatEventId]!.setRelativeOffset(data.conPointEnum!, details.delta);
     }
     data.moveUIPacker.notifyListeners();
   }
@@ -148,10 +109,8 @@ extension HandleOnEvent on DesignState{
 
     if (data.outActiveChatEventId != null && data.downMouseOffset != null) {
       for (final nextElem in data.chatEventUIPackers) {
-        if (nextElem.buildCardRectPath().contains(data.downMouseOffset!) &&
-            nextElem.chatEvent.testIsAnyRes) {
-          final findChatEventUIPack =
-          data.fromIdFindUIPacker(data.outActiveChatEventId!);
+        if (nextElem.buildCardRectPath().contains(data.downMouseOffset!) && nextElem.chatEvent.testIsAnyRes) {
+          final findChatEventUIPack = data.fromIdFindUIPacker(data.outActiveChatEventId!);
           assert(findChatEventUIPack != null);
           findChatEventUIPack!.addResLink(nextElem.chatEvent);
           break;
@@ -171,10 +130,14 @@ extension HandleOnEvent on DesignState{
 
   handleOnAddCard() {
     data.insetChatEvent(
-        chatEvents: ChatLogicFunction.createChatEvent(), left: 10, top: 10);
+      chatEvents: ChatLogicFunction.createChatEvent(),
+      left: data.viewBoxOffset.dx + 10,
+      top: data.viewBoxOffset.dy + 10,
+    );
     data.notifyListeners();
   }
-  handleOnAutoSort(){
+
+  handleOnAutoSort() {
     data.autoSortUIPack();
     data.notifyListeners();
   }
