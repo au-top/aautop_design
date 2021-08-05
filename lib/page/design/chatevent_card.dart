@@ -1,9 +1,11 @@
+import 'dart:math';
+
 import 'package:aautop_designer/tool/widget/free_chip.dart';
 import 'package:flutter/material.dart';
-import 'package:aautop_designer/page/design/chatevent_ui_packer.dart';
+import 'package:aautop_designer/data/chatevent_ui_packer.dart';
 import 'package:aautop_designer/style/style.dart';
 import "package:aautop_designer/model/chatlogic_model.dart";
-import "package:aautop_designer/model/events_type.dart";
+import "package:aautop_designer/tool/extend_list.dart";
 
 enum ChatEventCardMode {
   less,
@@ -27,8 +29,26 @@ class ChatEventCard extends StatelessWidget {
     this.onTap,
   }) : super(key: key);
 
-  Widget eventId() {
-    return cardListTile(
+  Widget _createCardListTile({Widget? leading, Widget? title, Widget? titleEnd, Widget? trailing}) {
+    return Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          leading ?? const SizedBox(),
+          SizedBox(
+            width: nullBoxWidth,
+          ),
+          title ?? const SizedBox(),
+          titleEnd ?? const SizedBox(),
+          trailing ?? const SizedBox(),
+        ],
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 4),
+    );
+  }
+
+  Widget _buildEventId() {
+    return _createCardListTile(
       leading: const Text("ID"),
       title: Expanded(
         child: Container(
@@ -47,32 +67,40 @@ class ChatEventCard extends StatelessWidget {
     );
   }
 
-  Widget timeCons(List<ChatLogicChatEventsTimeCon> chatLogic_chatEvents_timeCons) {
-    return cardListTile(
-        leading: const Text("时间段"),
-        title: Expanded(
-          child: SizedBox(
-            child: Wrap(
-              children: [
-                ...chatLogic_chatEvents_timeCons.map(
-                  (e) => Padding(
-                    child: Text(
-                      "${e.min}-${e.max}",
-                      style: h6TextStyleLow,
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                  ),
-                )
-              ],
+  Widget _buildTimeCons(List<ChatLogicChatEventsTimeCon> chatLogic_chatEvents_timeCons) {
+    final timeConGroupWidgets = chatLogic_chatEvents_timeCons
+        .map(
+          (e) => Text("${e.min}-${e.max} "),
+        )
+        .toList()
+        .subgroup(2)
+        .map((e) => Row(children: e,mainAxisAlignment: MainAxisAlignment.start,))
+        .toList();
+
+    return _createCardListTile(
+      leading: const Text("时间段"),
+      title: Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ...timeConGroupWidgets.sublist(
+              0,
+              min(timeConGroupWidgets.length, 3),
             ),
-            height: 50,
-          ),
+            if (timeConGroupWidgets.length > 3)
+              const Text(
+                "最多显示6个",
+                style: h8TextStyleLow,
+              )
+          ],
         ),
-        titleEnd: const SizedBox(),
-        trailing: const SizedBox());
+      ),
+      titleEnd: const SizedBox(),
+      trailing: const SizedBox(),
+    );
   }
 
-  Widget resListen() {
+  Widget _buildResListen() {
     if (chatEventUIPacker.chatEvent.testIsAnyRes) {
       //res
       final resContent = chatEventUIPacker.chatEvent.isRes!;
@@ -83,7 +111,7 @@ class ChatEventCard extends StatelessWidget {
               if (resContent.listenOn != null) {
                 final findMsg = chatLogic.fromIdGetMsg(resContent.listenOn!);
                 if (findMsg != null) {
-                  return cardListTile(
+                  return _createCardListTile(
                     leading: const Text("监听消息"),
                     title: Expanded(
                       child: Text(
@@ -98,7 +126,7 @@ class ChatEventCard extends StatelessWidget {
                   );
                 }
               }
-              return cardListTile(
+              return _createCardListTile(
                 leading: const Text("监听消息"),
                 title: const Text(
                   "这是空的",
@@ -112,61 +140,59 @@ class ChatEventCard extends StatelessWidget {
       );
     } else if (chatEventUIPacker.chatEvent.testIsTimer) {
       assert(false);
-      return cardListTile(
+      return _createCardListTile(
         title: const Text("Is a Timer"),
       );
     } else {
       assert(false);
-      return cardListTile(
+      return _createCardListTile(
         title: const Text("No Def EventType"),
       );
     }
   }
 
-  Widget sendMsgs() {
+  Widget _buildSendMsgs() {
     return Container(
-      child: cardListTile(
+      child: _createCardListTile(
         leading: const Text("发送消息"),
         title: Expanded(
           child: SizedBox(
-            height: 30,
-            child: SingleChildScrollView(
-              controller: ScrollController(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ...chatEventUIPacker.chatEvent.sendMsgs!.map((e) => chatLogic.fromIdGetMsg(e)).where((element) => element != null).map((e) => Text(e!.content.toString())),
-                ],
-              ),
+            child: Builder(
+              builder: (bc) {
+                final showList = chatEventUIPacker.chatEvent.sendMsgs!
+                    .map((e) => chatLogic.fromIdGetMsg(e))
+                    .where((element) => element != null)
+                    .map(
+                      (e) => Text(
+                        e!.content.toString(),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                    .toList();
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ...showList.sublist(0, min(showList.length, 3)),
+                    if (showList.length > 3)
+                      const Text(
+                        "最多显示3条",
+                        style: h8TextStyleLow,
+                      )
+                  ],
+                );
+              },
             ),
           ),
         ),
         trailing: Container(),
         titleEnd: Container(),
       ),
-      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
     );
   }
 
-  Widget cardListTile({Widget? leading, Widget? title, Widget? titleEnd, Widget? trailing}) {
-    return Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          leading ?? const SizedBox(),
-          SizedBox(
-            width: nullBoxWidth,
-          ),
-          title ?? const SizedBox(),
-          titleEnd ?? const SizedBox(),
-          trailing ?? const SizedBox(),
-        ],
-      ),
-      margin: const EdgeInsets.symmetric(vertical: 4),
-    );
-  }
-
-  Container cardContent() {
+  Container _buildCardContent() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: SingleChildScrollView(
@@ -177,10 +203,10 @@ class ChatEventCard extends StatelessWidget {
               // res
               return Column(
                 children: [
-                  eventId(),
-                  sendMsgs(),
-                  resListen(),
-                  timeCons(
+                  _buildEventId(),
+                  _buildSendMsgs(),
+                  _buildResListen(),
+                  _buildTimeCons(
                     chatEventUIPacker.chatEvent.isRes!.timeCons ?? [],
                   ),
                 ],
@@ -191,13 +217,13 @@ class ChatEventCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  eventId(),
-                  sendMsgs(),
-                  cardListTile(
+                  _buildEventId(),
+                  _buildSendMsgs(),
+                  _createCardListTile(
                     leading: const Text("最小间隔时间"),
                     title: Text(chatEventUIPacker.chatEvent.isTimer!.coolDownTime.toString()),
                   ),
-                  cardListTile(
+                  _createCardListTile(
                     leading: const Text("每天最大次数"),
                     title: Text(chatEventUIPacker.chatEvent.isTimer!.frequency.toString()),
                   ),
@@ -229,7 +255,7 @@ class ChatEventCard extends StatelessWidget {
               child: Material(
                 child: InkWell(
                   onTap: onTap ?? () => null,
-                  child: cardContent(),
+                  child: _buildCardContent(),
                 ),
                 color: Colors.transparent,
               ),

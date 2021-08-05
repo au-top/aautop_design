@@ -144,7 +144,7 @@ extension DesignChatEventEditor on DesignState {
                     )
               ];
             },
-            height: 100,
+            height: 120,
           ),
           padding: const EdgeInsets.all(3),
         ),

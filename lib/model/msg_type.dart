@@ -4,7 +4,7 @@ enum MsgType{
   onText,
   onImage
 }
-extension toEventsType on MsgType{
+extension ToEventsType on MsgType{
   String toEnumString(){
     switch(this){
       case MsgType.text:

@@ -3,7 +3,7 @@ import 'package:aautop_designer/style/style.dart';
 import 'package:aautop_designer/tool/widget/dependent.dart';
 import 'package:aautop_designer/tool/widget/free_chip.dart';
 import 'package:flutter/material.dart';
-import 'package:aautop_designer/data/functions.dart';
+import 'package:aautop_designer/data/function/build_id.dart';
 import "package:aautop_designer/model/chatlogic_model.dart";
 import "package:aautop_designer/model/msg_type.dart";
 

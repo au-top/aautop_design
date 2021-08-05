@@ -4,7 +4,7 @@ import 'package:aautop_designer/page/design.dart';
 import 'package:aautop_designer/style/style.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-import 'package:aautop_designer/page/design/chatevent_ui_packer.dart';
+import 'package:aautop_designer/data/chatevent_ui_packer.dart';
 import "package:aautop_designer/model/events_type.dart";
 import "package:aautop_designer/model/chatlogic_model.dart";
 ChatEventUIPacker? fromEventIdFindChatEventUIPacker(

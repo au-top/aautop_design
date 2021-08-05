@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:aautop_designer/data/mock.dart';
 import 'package:aautop_designer/page/design/design_chatevent_editor.dart';
 import 'package:aautop_designer/page/design/design_dialog.dart';
 import 'package:aautop_designer/page/design/design_main.dart';
-import 'package:aautop_designer/page/design/chatevent_ui_packer.dart';
+import 'package:aautop_designer/data/chatevent_ui_packer.dart';
 import 'package:aautop_designer/service/service_inherited.dart';
 import 'package:aautop_designer/service/window_titlebar_service.dart';
 import 'package:aautop_designer/style/less_popup_menu_item.dart';
@@ -15,6 +14,7 @@ import "package:aautop_designer/model/chatlogic_model.dart";
 class DesignData extends ChangeNotifier {
   ChatLogic chatLogic;
 
+  /// Design 区域背景颜色
   Color backgroundColors = const Color.fromRGBO(246, 246, 246, 1.0);
 
   /// 保存文件的Path
@@ -23,6 +23,7 @@ class DesignData extends ChangeNotifier {
   /// 保存文件的Name
   String? saveFileName;
 
+  /// 最后保存时间
   DateTime lastSaveTime=DateTime.now();
 
   /// ChatEventUIPackers
@@ -265,7 +266,7 @@ class DesignState extends State<Design> {
   void initState() {
     super.initState();
     //data source
-    final chatLogic = mockData();
+    final chatLogic = ChatLogic(chatEvents: [], msgs: []);
     data = DesignData.createHelper(chatLogic)..autoSortUIPack;
     // async init
     Future(

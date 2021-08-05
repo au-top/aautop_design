@@ -4,7 +4,7 @@ import 'package:aautop_designer/model/msg_type.dart';
 import 'package:aautop_designer/model/raw/chatlogic_chatevents_timecons.dart';
 import 'package:aautop_designer/model/raw/chatlogic_chatevents.dart';
 import 'package:aautop_designer/model/raw/chatlogic_msgs.dart';
-import 'package:aautop_designer/data/functions.dart';
+import 'package:aautop_designer/data/function/build_id.dart';
 import 'package:aautop_designer/model/events_type.dart';
 import 'package:aautop_designer/model/raw/chatlogic.dart';
 import 'package:aautop_designer/model/raw/chatlogic_chatevents_isres.dart';

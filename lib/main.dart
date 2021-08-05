@@ -1,5 +1,4 @@
-import 'dart:async';
-import 'dart:convert';
+
 import 'dart:io';
 
 import 'package:aautop_designer/page/about.dart';
@@ -11,10 +10,8 @@ import 'package:aautop_designer/style/style.dart';
 import 'package:aautop_designer/widget/windows_icon.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 void main() {
-
-
   runApp(Frame());
   if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
     doWhenWindowReady(() {
@@ -72,51 +69,7 @@ class Frame extends StatelessWidget {
                     builder: (bc) => AppInfo(key: ServiceManage.of(bc).appInfoService),
                   ),
                   // setup window title system bar Service Widget
-                  Builder(
-                    builder: (bc) => Container(
-                      color: Colors.white,
-                      height: 26,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: MoveWindow(
-                              child: Container(
-                                padding: const EdgeInsets.only(left: 5, top: 6),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      child: Hero(
-                                        tag: "windowsIcon",
-                                        child: Tooltip(
-                                          child: windowsIcon(),
-                                          message: "关于",
-                                        ),
-                                      ),
-                                      onPanDown: (d) {
-                                        Navigator.of(bc).push(
-                                          MaterialPageRoute(
-                                            builder: (bc) => buildAbout(bc),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    Expanded(
-                                      child: WindowTitlebar(
-                                        key: ServiceManage.of(bc).windowTitlebarService,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          MoveWindow(
-                            child: WindowButtons(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  buildWindowToolbar(),
                   //content body
                   Expanded(
                     child: contentNav,
@@ -127,6 +80,54 @@ class Frame extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Builder buildWindowToolbar() {
+    return Builder(
+      builder: (bc) => Container(
+        color: Colors.white,
+        height: 26,
+        child: Row(
+          children: [
+            Expanded(
+              child: MoveWindow(
+                child: Container(
+                  padding: const EdgeInsets.only(left: 5, top: 6),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        child: Hero(
+                          tag: "windowsIcon",
+                          child: Tooltip(
+                            child: windowsIcon(),
+                            message: "关于",
+                          ),
+                        ),
+                        onPanDown: (d) {
+                          Navigator.of(bc).push(
+                            MaterialPageRoute(
+                              builder: (bc) => buildAbout(bc),
+                            ),
+                          );
+                        },
+                      ),
+                      Expanded(
+                        child: WindowTitlebar(
+                          key: ServiceManage.of(bc).windowTitlebarService,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            MoveWindow(
+              child: _WindowButtons(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -150,21 +151,23 @@ class AppFrameState extends State<AppFrame> {
 }
 
 final buttonColors = WindowButtonColors(
-  iconNormal: Color(0xFF000000),
-  mouseOver: Color(0x9CD9D9D9),
-  mouseDown: Color(0xE9106FB4),
+  iconNormal: const Color(0xFF000000),
+  mouseOver: const Color(0x9CD9D9D9),
+  mouseDown: const Color(0xE9106FB4),
   iconMouseOver: Colors.black,
   iconMouseDown: Colors.white,
 );
 
 final closeButtonColors = WindowButtonColors(
-  mouseOver: Color(0xFFD32F2F),
-  mouseDown: Color(0xFFB71C1C),
-  iconNormal: Color(0xFF000000),
+  mouseOver: const Color(0xFFD32F2F),
+  mouseDown: const Color(0xFFB71C1C),
+  iconNormal: const Color(0xFF000000),
   iconMouseOver: Colors.white,
 );
 
-class WindowButtons extends StatelessWidget {
+
+/// windows min , max , close button
+class _WindowButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(

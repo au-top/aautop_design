@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:aautop_designer/model/chatlogic_model.dart';
 import 'package:aautop_designer/page/design/float_tool_bar.dart';
 import 'package:aautop_designer/page/design/chatevent_card.dart';
-import 'package:aautop_designer/page/design/chatevent_ui_packer.dart';
+import 'package:aautop_designer/data/chatevent_ui_packer.dart';
 import 'package:aautop_designer/page/design/design_link_line_point.dart';
 import 'package:aautop_designer/style/style.dart';
 

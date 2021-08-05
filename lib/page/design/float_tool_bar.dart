@@ -1,9 +1,8 @@
 import 'dart:math';
 
 import 'package:aautop_designer/page/design.dart';
-import 'package:aautop_designer/page/design/chatevent_ui_packer.dart';
-import 'package:aautop_designer/page/design/design_link_line_point.dart';
-import 'package:aautop_designer/page/design/design_main.dart';
+import 'package:aautop_designer/data/chatevent_ui_packer.dart';
+
 import 'package:aautop_designer/style/style.dart';
 import 'package:flutter/material.dart';
 

@@ -115,7 +115,7 @@ class ChatEventUIPacker extends ChangeNotifier {
   /// 目前无用
   String remarks = "";
 
-  static Size sizeCon = const Size(280, 170);
+  static Size sizeCon = const Size(300, 180);
 
   double top;
   double left;
