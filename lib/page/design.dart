@@ -100,7 +100,7 @@ class DesignData extends ChangeNotifier {
     for (var uiPackElem in chatEventUIPackers) {
       if (uiPackElem.chatEvent.testIsRes) {
         resTypeChatEvents.add(uiPackElem);
-      } else if (uiPackElem.chatEvent.testIsSubRes) {
+      } else if (uiPackElem.chatEvent.testIsAnySub) {
         resSubTypeChatEvents.add(uiPackElem);
       } else if (uiPackElem.chatEvent.testIsTimer) {
         timerTypeChatEvents.add(uiPackElem);
@@ -136,7 +136,7 @@ class DesignData extends ChangeNotifier {
     Offset? returnEndOffset;
     for (int index = 0, sortIndex = 0; index < chatEventUIPackers.length; index++) {
       final elem = chatEventUIPackers[index];
-      if (topLayer || elem.chatEvent.testIsSubRes) {
+      if (topLayer || elem.chatEvent.testIsAnySub) {
         final newOffset = offsetBase +
             Offset(
               0,

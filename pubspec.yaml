@@ -33,6 +33,7 @@ dependencies:
   bitsdojo_window:
     path: plugin/bitsdojo_window/bitsdojo_window
   filepicker_windows: ^2.0.0
+  dio: ^4.0.0
 
 dev_dependencies:
   flutter_test:

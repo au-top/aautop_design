@@ -29,10 +29,13 @@ typedef ChatLogicMsg = ChatLogicMsgs;
 
 
 extension ChatLogicChatEventTypeTest on ChatLogicChatEvent {
-  bool get testIsAnyRes=>eventsType==EventsType.subres.toEnumString()||eventsType==EventsType.res.toEnumString();
+  bool get testIsAnyRes=>eventsType==EventsType.subres.toEnumString()||eventsType==EventsType.res.toEnumString()||eventsType==EventsType.subnow.toEnumString();
+  bool get testIsAnySub=>testIsSubNow||testIsSubRes;
   bool get testIsRes=>eventsType==EventsType.res.toEnumString();
   bool get testIsSubRes=>eventsType==EventsType.subres.toEnumString();
+  bool get testIsSubNow=>eventsType==EventsType.subnow.toEnumString();
   bool get testIsTimer=>eventsType==EventsType.timer.toEnumString();
+
 }
 
 extension ChatLogicMsgsTypeTest on ChatLogicMsgs{
@@ -42,7 +45,6 @@ extension ChatLogicMsgsTypeTest on ChatLogicMsgs{
   bool get testIsOnImage=>type==MsgType.onImage.toEnumString();
   bool get testIsText=>type==MsgType.text.toEnumString();
   bool get testIsImage=>type==MsgType.image.toEnumString();
-
 }
 
 

@@ -30,12 +30,14 @@ class ChatEventCard extends StatelessWidget {
   Widget eventId() {
     return cardListTile(
       leading: const Text("ID"),
-      title: Container(
-        child: Text(
-          chatEventUIPacker.chatEvent.eventId.toString(),
-          style: h7TextStyleLow,
+      title: Expanded(
+        child: Container(
+          child: Text(
+            chatEventUIPacker.chatEvent.eventId.toString(),
+            style: h7TextStyleLow,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: nullBoxWidth),
         ),
-        padding: EdgeInsets.symmetric(horizontal: nullBoxWidth),
       ),
       trailing: FreeChip(
         label: Text(
@@ -83,10 +85,12 @@ class ChatEventCard extends StatelessWidget {
                 if (findMsg != null) {
                   return cardListTile(
                     leading: const Text("监听消息"),
-                    title: Text(
-                      findMsg.content.toString(),
-                      style: h7TextStyleLow,
-                      overflow: TextOverflow.ellipsis,
+                    title: Expanded(
+                      child: Text(
+                        findMsg.content.toString(),
+                        style: h7TextStyleLow,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     trailing: FreeChip(
                       label: Text(findMsg.type!),
@@ -149,13 +153,13 @@ class ChatEventCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          leading ?? const Spacer(),
+          leading ?? const SizedBox(),
           SizedBox(
             width: nullBoxWidth,
           ),
-          title ?? const Spacer(),
-          titleEnd ?? const Spacer(),
-          trailing ?? const Spacer(),
+          title ?? const SizedBox(),
+          titleEnd ?? const SizedBox(),
+          trailing ?? const SizedBox(),
         ],
       ),
       margin: const EdgeInsets.symmetric(vertical: 4),
@@ -169,8 +173,7 @@ class ChatEventCard extends StatelessWidget {
         controller: ScrollController(),
         child: Builder(
           builder: (bc) {
-            final eventType = chatEventUIPacker.chatEvent.eventsType;
-            if (eventType == EventsType.res.toEnumString() || eventType == EventsType.subres.toEnumString()) {
+            if (chatEventUIPacker.chatEvent.testIsAnyRes) {
               // res
               return Column(
                 children: [
@@ -182,7 +185,7 @@ class ChatEventCard extends StatelessWidget {
                   ),
                 ],
               );
-            } else if (eventType == EventsType.timer.toEnumString()) {
+            } else if (chatEventUIPacker.chatEvent.testIsTimer) {
               // timer
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -151,8 +151,7 @@ class ChatEventUIPacker extends ChangeNotifier {
   ChatEventUIPacker(
       {required this.top, required this.left, required this.chatEvent}) {
     // is res or subres
-    if (chatEvent.eventsType == EventsType.subres.toEnumString() ||
-        chatEvent.eventsType == EventsType.res.toEnumString()) {
+    if (chatEvent.testIsAnyRes) {
       // init link line pos con map
       for (final priorityChatEventId in chatEvent.isRes!.priorityEventLists!) {
         linkBesselLineCons[priorityChatEventId] = ChatEventUIPackerLinkBesselLineCon();

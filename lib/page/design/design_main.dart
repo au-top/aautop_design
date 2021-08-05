@@ -244,7 +244,7 @@ extension DesignMain on DesignState {
           ),
           color: Colors.transparent,
         ),
-        data: ThemeData(
+        data: Theme.of(context).copyWith(
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
               overlayColor: MaterialStateProperty.resolveWith((states) => states.contains(MaterialState.pressed) ? Theme.of(context).splashColor : Colors.transparent),

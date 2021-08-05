@@ -2,6 +2,7 @@ enum EventsType{
   res,
   timer,
   subres,
+  subnow
 }
 extension toEventsType on EventsType{
   String toEnumString(){
@@ -12,6 +13,8 @@ extension toEventsType on EventsType{
         return "timer";
       case EventsType.subres:
         return "subres";
+      case EventsType.subnow:
+        return "subnow";
     }
   }
 }

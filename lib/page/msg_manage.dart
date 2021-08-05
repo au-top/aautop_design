@@ -377,7 +377,7 @@ class MsgManageState extends State<MsgManage> {
                         ),
                       ),
                       Theme(
-                        data: ThemeData(
+                        data: Theme.of(bc).copyWith(
                           elevatedButtonTheme: ElevatedButtonThemeData(
                             style: ButtonStyle(
                               elevation: MaterialStateProperty.all(0),

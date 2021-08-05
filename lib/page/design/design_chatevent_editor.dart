@@ -429,9 +429,9 @@ extension DesignChatEventEditor on DesignState {
                     height: 20,
                   ),
                   Builder(builder: (bc) {
-                    if (chatEvent.eventsType == EventsType.res.toEnumString() || chatEvent.eventsType == EventsType.subres.toEnumString()) {
+                    if (chatEvent.testIsAnyRes) {
                       return onResConfigWidget(data, context);
-                    } else if (chatEvent.eventsType == EventsType.timer.toEnumString()) {
+                    } else if (chatEvent.testIsTimer) {
                       return onTimerConfigWidget(data, context);
                     } else {
                       return const Text("No Def Type");
@@ -442,7 +442,7 @@ extension DesignChatEventEditor on DesignState {
               constraints: BoxConstraints(minHeight: con.maxHeight),
               padding: const EdgeInsets.only(right: 12),
             ),
-            data: buildRootThemeData(context).copyWith(
+            data: Theme.of(context).copyWith(
               scrollbarTheme: const ScrollbarThemeData(isAlwaysShown: true),
             ),
           ),

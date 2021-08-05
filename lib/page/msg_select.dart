@@ -29,7 +29,7 @@ class MsgSelectState extends State<MsgSelect> {
   Widget build(BuildContext context) {
     final onTypeEvents = List<ChatLogicMsg>.from(widget.dataLogicData.msgs!)
       ..removeWhere(
-        (element) => element.type == null || element.type == MsgType.onText.toEnumString() || element.type == MsgType.onImage.toEnumString(),
+        (element) => element.type == null || element.testIsAnyOn,
       );
     return Scaffold(
       backgroundColor: Colors.transparent,
